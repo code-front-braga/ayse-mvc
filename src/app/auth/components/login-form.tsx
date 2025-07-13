@@ -52,7 +52,7 @@ const LoginForm = () => {
 										className="peer pe-9"
 									/>
 								</FormControl>
-								<div className="text-muted-foreground/80 pointer-events-none absolute end-0 top-7.5 flex items-center justify-center pe-3 peer-disabled:opacity-50 md:top-[34px]">
+								<div className="text-muted-foreground/80 pointer-events-none absolute end-0 top-[31px] flex items-center justify-center pe-3 peer-disabled:opacity-50 md:top-[34px]">
 									<MailIcon size={14} color="#ff781a" aria-hidden="true" />
 								</div>
 

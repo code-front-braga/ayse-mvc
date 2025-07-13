@@ -2,7 +2,7 @@ import { ChartNoAxesCombined } from 'lucide-react';
 
 const AuthHeader = () => {
 	return (
-		<header className="flex mt-12 md:mt-6 flex-col items-center gap-2 self-center md:flex-row">
+		<header className="flex mt-8 md:mt-6 flex-col items-center gap-2 self-center md:flex-row">
 			<div className="flex items-center gap-1">
 				<h1 className="font-inter text-primary text-3xl md:text-4xl">ayse</h1>
 				<ChartNoAxesCombined size={16} className="text-primary self-baseline" />

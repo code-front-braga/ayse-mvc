@@ -30,6 +30,7 @@ const RegisterForm = () => {
 	const togglePasswordVisibility = () => setIsPasswordVisible(prev => !prev);
 	const toggleConfirmPasswordVisibility = () =>
 		setIsConfirmPasswordVisible(prev => !prev);
+
 	const passwordInputType = isPasswordVisible ? 'text' : 'password';
 	const confirmPasswordInputType = isConfirmPasswordVisible
 		? 'text'
@@ -39,7 +40,7 @@ const RegisterForm = () => {
 		console.log(data);
 	};
 
-	const checkStrength = (pass: string) => {
+	const checkStrength = (password: string) => {
 		const requirements = [
 			{ regex: /.{6,}/, text: 'Pelo menos 6 caracteres' },
 			{ regex: /[0-9]/, text: 'Pelo menos 1 número' },
@@ -49,7 +50,7 @@ const RegisterForm = () => {
 		];
 
 		return requirements.map(req => ({
-			met: req.regex.test(pass),
+			met: req.regex.test(password),
 			text: req.text,
 		}));
 	};
@@ -93,6 +94,7 @@ const RegisterForm = () => {
 									<Input
 										{...field}
 										type="email"
+										maxLength={25}
 										placeholder="Seu nome"
 										className="peer pe-9"
 									/>
@@ -207,7 +209,7 @@ const RegisterForm = () => {
 				aria-valuenow={strengthScore}
 				aria-valuemin={0}
 				aria-valuemax={4}
-				aria-label="Password strength"
+				aria-label="Força da senha"
 			>
 				<div
 					className={`h-full ${getStrengthColor(strengthScore)} transition-all duration-500 ease-out`}
