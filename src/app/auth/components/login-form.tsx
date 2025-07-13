@@ -1,40 +1,101 @@
 'use client';
 
-import { Eye, MailIcon } from 'lucide-react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Eye, EyeClosed, MailIcon } from 'lucide-react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import { Button } from '@/ui/button';
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '@/ui/form';
 import { Input } from '@/ui/input';
-import { Label } from '@/ui/label';
 
-import GoogleLogin from './google-login';
+import { loginSchema, LoginSchemaData } from '../zod-schemas/forms';
 
 const LoginForm = () => {
+	const [isVisible, setIsVisible] = useState<boolean>(false);
+	const form = useForm<LoginSchemaData>({
+		resolver: zodResolver(loginSchema),
+		defaultValues: { email: '', password: '' },
+	});
+	const passwordInputType = isVisible ? 'text' : 'password';
+	const toggleVisibility = () => setIsVisible(prev => !prev);
+
+	const handleLoginSubmit = (data: LoginSchemaData) => {
+		console.log(data);
+	};
+
 	return (
 		<div className="mt-4 w-full max-w-sm">
-			<form onSubmit={() => {}} className="flex flex-col gap-6">
-				<div className="*:not-first:mt-2">
-					<Label>Email</Label>
-					<div className="relative">
-						<Input className="peer pe-9" placeholder="Email" type="email" />
-						<div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 peer-disabled:opacity-50">
-							<MailIcon size={16} aria-hidden="true" />
-						</div>
-					</div>
-				</div>
-				<div className="*:not-first:mt-2">
-					<Label>Senha</Label>
-					<div className="relative">
-						<Input className="peer pe-9" placeholder="Senha" type="password" />
-						<div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 peer-disabled:opacity-50">
-							<Eye size={16} aria-hidden="true" />
-						</div>
-					</div>
-				</div>
+			<Form {...form}>
+				<form
+					onSubmit={form.handleSubmit(handleLoginSubmit)}
+					className="flex flex-col gap-6"
+				>
+					<FormField
+						control={form.control}
+						name="email"
+						render={({ field }) => (
+							<FormItem className="relative">
+								<FormLabel className="text-xs md:text-sm">Email</FormLabel>
+								<FormControl>
+									<Input
+										{...field}
+										type="email"
+										placeholder="Email"
+										className="peer pe-9"
+									/>
+								</FormControl>
+								<div className="text-muted-foreground/80 pointer-events-none absolute end-0 top-7.5 flex items-center justify-center pe-3 peer-disabled:opacity-50 md:top-[34px]">
+									<MailIcon size={14} color="#ff781a" aria-hidden="true" />
+								</div>
 
-				<Button>Entrar</Button>
+								<FormMessage className="absolute -bottom-4" />
+							</FormItem>
+						)}
+					/>
 
-				<GoogleLogin />
-			</form>
+					<FormField
+						control={form.control}
+						name="password"
+						render={({ field }) => (
+							<FormItem className="relative">
+								<FormLabel className="text-xs md:text-sm">Senha</FormLabel>
+								<FormControl>
+									<Input
+										{...field}
+										type={passwordInputType}
+										placeholder="Senha"
+										className="peer pe-9"
+									/>
+								</FormControl>
+
+								<button
+									type="button"
+									onClick={toggleVisibility}
+									className="text-muted-foreground/80 absolute end-0 top-[32px] flex items-center justify-center pe-3 peer-disabled:opacity-50 md:top-[34px]"
+								>
+									{isVisible ? (
+										<Eye size={14} color="#ff781a" aria-hidden="true" />
+									) : (
+										<EyeClosed size={14} color="#ff781a" aria-hidden="true" />
+									)}
+								</button>
+
+								<FormMessage className="absolute -bottom-4" />
+							</FormItem>
+						)}
+					/>
+
+					<Button type="submit">Entrar</Button>
+				</form>
+			</Form>
 		</div>
 	);
 };

@@ -10,7 +10,7 @@ export default function RootLayout({
 	return (
 		<html lang="pt-br">
 			<body
-				className={`${inter.className} ${alumni.className} ${zain.className} h-screen antialiased`}
+				className={`${inter.className} ${alumni.className} ${zain.className} h-screen overflow-hidden antialiased`}
 			>
 				{children}
 			</body>

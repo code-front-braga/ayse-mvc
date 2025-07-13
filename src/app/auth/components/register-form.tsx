@@ -1,31 +1,51 @@
 'use client';
 
-import {
-	CheckIcon,
-	EyeIcon,
-	EyeOffIcon,
-	MailIcon,
-	User,
-	XIcon,
-} from 'lucide-react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { CheckIcon, Eye, EyeClosed, MailIcon, User, XIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import { Button } from '@/ui/button';
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '@/ui/form';
 import { Input } from '@/ui/input';
-import { Label } from '@/ui/label';
+
+import { registerSchema, RegisterSchemaData } from '../zod-schemas/forms';
 
 const RegisterForm = () => {
-	const [password, setPassword] = useState<string>('');
-	const [isVisible, setIsVisible] = useState<boolean>(false);
+	const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+	const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+		useState<boolean>(false);
+	const form = useForm<RegisterSchemaData>({
+		resolver: zodResolver(registerSchema),
+		defaultValues: { name: '', email: '', password: '', confirmPassword: '' },
+	});
 
-	const toggleVisibility = () => setIsVisible(prev => !prev);
+	const togglePasswordVisibility = () => setIsPasswordVisible(prev => !prev);
+	const toggleConfirmPasswordVisibility = () =>
+		setIsConfirmPasswordVisible(prev => !prev);
+	const passwordInputType = isPasswordVisible ? 'text' : 'password';
+	const confirmPasswordInputType = isConfirmPasswordVisible
+		? 'text'
+		: 'password';
+
+	const handleRegisterSubmit = (data: RegisterSchemaData) => {
+		console.log(data);
+	};
 
 	const checkStrength = (pass: string) => {
 		const requirements = [
-			{ regex: /.{8,}/, text: 'Pelo menos 8 caracteres' },
+			{ regex: /.{6,}/, text: 'Pelo menos 6 caracteres' },
 			{ regex: /[0-9]/, text: 'Pelo menos 1 número' },
 			{ regex: /[a-z]/, text: 'Pelo menos 1 letra minúscula' },
 			{ regex: /[A-Z]/, text: 'Pelo menos 1 letra maiúscula' },
+			{ regex: /[^A-Za-z0-9]/, text: 'Pelo menos 1 caracter especial' },
 		];
 
 		return requirements.map(req => ({
@@ -34,11 +54,12 @@ const RegisterForm = () => {
 		}));
 	};
 
+	const password = form.watch('password');
 	const strength = checkStrength(password);
-
-	const strengthScore = useMemo(() => {
-		return strength.filter(req => req.met).length;
-	}, [strength]);
+	const strengthScore = useMemo(
+		() => strength.filter(req => req.met).length,
+		[strength],
+	);
 
 	const getStrengthColor = (score: number) => {
 		if (score === 0) return 'bg-border';
@@ -57,60 +78,128 @@ const RegisterForm = () => {
 
 	return (
 		<div className="w-full max-w-sm">
-			<form onSubmit={() => {}} className="flex flex-col gap-6">
-				<div className="*:not-first:mt-2">
-					<Label>Nome</Label>
-					<div className="relative">
-						<Input className="peer pe-9" placeholder="Nome" type="text" />
-						<div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 peer-disabled:opacity-50">
-							<User size={16} aria-hidden="true" />
-						</div>
-					</div>
-				</div>
-				<div className="*:not-first:mt-2">
-					<Label>Email</Label>
-					<div className="relative">
-						<Input className="peer pe-9" placeholder="Email" type="email" />
-						<div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 peer-disabled:opacity-50">
-							<MailIcon size={16} aria-hidden="true" />
-						</div>
-					</div>
-				</div>
-				<div className="flex items-center gap-2">
-					<div className="flex flex-1 flex-col gap-1">
-						<Label>Criar Senha</Label>
-						<div className="relative">
-							<Input
-								className="pe-9"
-								placeholder="Password"
-								type={isVisible ? 'text' : 'password'}
-								value={password}
-								onChange={e => setPassword(e.target.value)}
-							/>
-							<button
-								className="text-muted-foreground/80 hover:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-md transition-[color,box-shadow] outline-none focus:z-10 focus-visible:ring-[3px] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
-								type="button"
-								onClick={toggleVisibility}
-								aria-label={isVisible ? 'Hide password' : 'Show password'}
-								aria-pressed={isVisible}
-								aria-controls="password"
-							>
-								{isVisible ? (
-									<EyeIcon size={16} aria-hidden="true" />
-								) : (
-									<EyeOffIcon size={16} aria-hidden="true" />
-								)}
-							</button>
-						</div>
-					</div>
-					<div className="flex flex-1 flex-col gap-1">
-						<Label>Confirme a Senha</Label>
-						<Input placeholder="******" />
-					</div>
-				</div>
+			<Form {...form}>
+				<form
+					onSubmit={form.handleSubmit(handleRegisterSubmit)}
+					className="flex flex-col gap-6"
+				>
+					<FormField
+						control={form.control}
+						name="name"
+						render={({ field }) => (
+							<FormItem className="relative">
+								<FormLabel className="text-xs md:text-sm">Nome</FormLabel>
+								<FormControl>
+									<Input
+										{...field}
+										type="email"
+										placeholder="Seu nome"
+										className="peer pe-9"
+									/>
+								</FormControl>
+								<div className="text-muted-foreground/80 pointer-events-none absolute end-0 top-7.5 flex items-center justify-center pe-3 peer-disabled:opacity-50 md:top-[34px]">
+									<User size={14} color="#ff781a" aria-hidden="true" />
+								</div>
 
-				<Button>Cadastrar</Button>
-			</form>
+								<FormMessage className="absolute -bottom-4" />
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name="email"
+						render={({ field }) => (
+							<FormItem className="relative">
+								<FormLabel className="text-xs md:text-sm">Email</FormLabel>
+								<FormControl>
+									<Input
+										{...field}
+										type="email"
+										placeholder="Email"
+										className="peer pe-9"
+									/>
+								</FormControl>
+								<div className="text-muted-foreground/80 pointer-events-none absolute end-0 top-7.5 flex items-center justify-center pe-3 peer-disabled:opacity-50 md:top-[34px]">
+									<MailIcon size={14} color="#ff781a" aria-hidden="true" />
+								</div>
+
+								<FormMessage className="absolute -bottom-4" />
+							</FormItem>
+						)}
+					/>
+
+					<div className="flex items-center gap-2">
+						<FormField
+							control={form.control}
+							name="password"
+							render={({ field }) => (
+								<FormItem className="relative">
+									<FormLabel className="text-xs md:text-sm">Senha</FormLabel>
+									<FormControl>
+										<Input
+											{...field}
+											type={passwordInputType}
+											placeholder="Senha"
+											className="peer pe-9"
+										/>
+									</FormControl>
+
+									<button
+										type="button"
+										onClick={togglePasswordVisibility}
+										className="text-muted-foreground/80 absolute end-0 top-[32px] flex items-center justify-center pe-3 peer-disabled:opacity-50 md:top-[36px]"
+									>
+										{isPasswordVisible ? (
+											<Eye size={14} color="#ff781a" aria-hidden="true" />
+										) : (
+											<EyeClosed size={14} color="#ff781a" aria-hidden="true" />
+										)}
+									</button>
+
+									<FormMessage className="absolute -bottom-4" />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name="confirmPassword"
+							render={({ field }) => (
+								<FormItem className="relative">
+									<FormLabel className="text-xs md:text-sm">
+										Confirme a Senha
+									</FormLabel>
+									<FormControl>
+										<Input
+											{...field}
+											type={confirmPasswordInputType}
+											placeholder="Confirme a senha"
+											className="peer pe-9"
+										/>
+									</FormControl>
+
+									<button
+										type="button"
+										onClick={toggleConfirmPasswordVisibility}
+										className="text-muted-foreground/80 absolute end-0 top-[32px] flex items-center justify-center pe-3 peer-disabled:opacity-50 md:top-[36px]"
+									>
+										{isConfirmPasswordVisible ? (
+											<Eye size={14} color="#ff781a" aria-hidden="true" />
+										) : (
+											<EyeClosed size={14} color="#ff781a" aria-hidden="true" />
+										)}
+									</button>
+
+									<FormMessage className="absolute -bottom-4" />
+								</FormItem>
+							)}
+						/>
+					</div>
+
+					<Button>Cadastrar</Button>
+				</form>
+			</Form>
 
 			<div
 				className="bg-border mt-3 mb-4 h-1 w-full overflow-hidden rounded-full"
@@ -133,8 +222,10 @@ const RegisterForm = () => {
 				<span className="mb-2 text-xs">Deve conter:</span>
 			</div>
 
-			{/* Password requirements list */}
-			<ul className="space-y-1.5" aria-label="Password requirements">
+			<ul
+				className="bg-primary-foreground space-y-1.5 rounded p-2"
+				aria-label="Requisitos de senha"
+			>
 				{strength.map((req, index) => (
 					<li key={index} className="flex items-center gap-2">
 						{req.met ? (
@@ -155,7 +246,9 @@ const RegisterForm = () => {
 						>
 							{req.text}
 							<span className="sr-only">
-								{req.met ? ' - Requirement met' : ' - Requirement not met'}
+								{req.met
+									? ' - Requisito atendido'
+									: ' - Requisito não atendido'}
 							</span>
 						</span>
 					</li>
