@@ -2,16 +2,18 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeClosed, MailIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { loginSchema, LoginSchemaData } from '@/app/auth/zod-schemas/forms';
 import { CustomFormField } from '@/components/custom-form-field';
+import { Spinner } from '@/components/ui/kibo-ui/spinner';
 import { Button } from '@/ui/button';
 import { Form } from '@/ui/form';
 
 export const LoginForm = () => {
 	const [isVisible, setIsVisible] = useState<boolean>(false);
+	const [isPending, startTransition] = useTransition();
 	const form = useForm<LoginSchemaData>({
 		resolver: zodResolver(loginSchema),
 		defaultValues: { email: '', password: '' },
@@ -22,7 +24,10 @@ export const LoginForm = () => {
 	const toggleVisibility = () => setIsVisible(prev => !prev);
 
 	const handleLoginSubmit = (data: LoginSchemaData) => {
-		console.log(data);
+		startTransition(async () => {
+			await new Promise(resolve => setTimeout(resolve, 2000));
+			console.log(data);
+		});
 	};
 
 	return (
@@ -37,6 +42,7 @@ export const LoginForm = () => {
 						name="email"
 						type="email"
 						autoComplete="email"
+						disabled={isPending}
 						label="Email"
 						placeholder="Email"
 						icon={<MailIcon size={14} color="#ff781a" aria-hidden="true" />}
@@ -47,6 +53,7 @@ export const LoginForm = () => {
 						name="password"
 						type={passwordInputType}
 						autoComplete="current-password"
+						disabled={isPending}
 						label="Senha"
 						placeholder="Senha"
 						icon={
@@ -60,7 +67,9 @@ export const LoginForm = () => {
 						}
 					/>
 
-					<Button type="submit">Entrar</Button>
+					<Button type="submit">
+						{isPending ? <Spinner variant="bars" /> : 'Entrar'}
+					</Button>
 				</form>
 			</Form>
 		</div>
