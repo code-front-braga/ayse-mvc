@@ -8,7 +8,7 @@ export interface CustomTabsTriggerProps {
 	value: string;
 }
 
-const CustomTabsTrigger = ({
+export const CustomTabsTrigger = ({
 	icon: Icon,
 	title,
 	value,
@@ -27,5 +27,3 @@ const CustomTabsTrigger = ({
 		</TabsTrigger>
 	);
 };
-
-export default CustomTabsTrigger;

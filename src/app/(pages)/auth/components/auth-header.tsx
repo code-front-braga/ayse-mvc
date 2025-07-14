@@ -1,6 +1,6 @@
 import { ChartNoAxesCombined } from 'lucide-react';
 
-const AuthHeader = () => {
+export const AuthHeader = () => {
 	return (
 		<header className="flex flex-col items-center gap-2 self-center mb-8">
 			<div className="flex items-center gap-1">
@@ -13,5 +13,3 @@ const AuthHeader = () => {
 		</header>
 	);
 };
-
-export default AuthHeader;

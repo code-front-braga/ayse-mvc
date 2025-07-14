@@ -2,7 +2,8 @@ import { User, UserPlus } from 'lucide-react';
 
 import { Tabs, TabsContent, TabsList } from '@/ui/tabs';
 
-import CustomTabsTrigger, {
+import {
+	CustomTabsTrigger,
 	CustomTabsTriggerProps,
 } from './custom-tabs-trigger';
 import { LoginForm, RegisterForm } from './form/auth-forms';
@@ -21,7 +22,7 @@ const tabs: CustomTabsTriggerProps[] = [
 	},
 ];
 
-const AuthTabs = () => {
+export const AuthTabs = () => {
 	return (
 		<Tabs defaultValue="login-tab" className="w-full max-w-sm">
 			<TabsList className="mb-3 gap-1 self-center bg-transparent">
@@ -45,5 +46,3 @@ const AuthTabs = () => {
 		</Tabs>
 	);
 };
-
-export default AuthTabs;

@@ -5,11 +5,12 @@ import { Eye, EyeClosed, MailIcon } from 'lucide-react';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { loginSchema, LoginSchemaData } from '@/app/auth/zod-schemas/forms';
 import { CustomFormField } from '@/components/custom-form-field';
 import { Spinner } from '@/components/ui/kibo-ui/spinner';
 import { Button } from '@/ui/button';
 import { Form } from '@/ui/form';
+
+import { loginSchema, LoginSchemaData } from '../../../zod-schemas/forms';
 
 export const LoginForm = () => {
 	const [isVisible, setIsVisible] = useState<boolean>(false);

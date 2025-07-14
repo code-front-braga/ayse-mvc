@@ -5,15 +5,12 @@ import { MailIcon, User } from 'lucide-react';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 
-import {
-	registerSchema,
-	RegisterSchemaData,
-} from '@/app/auth/zod-schemas/forms';
 import { CustomFormField } from '@/components/custom-form-field';
 import { Spinner } from '@/components/ui/kibo-ui/spinner';
 import { Button } from '@/ui/button';
 import { Form } from '@/ui/form';
 
+import { registerSchema, RegisterSchemaData } from '../../../zod-schemas/forms';
 import {
 	ConfirmPasswordField,
 	PasswordField,
