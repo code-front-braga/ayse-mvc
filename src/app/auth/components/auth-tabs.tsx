@@ -5,9 +5,8 @@ import { Tabs, TabsContent, TabsList } from '@/ui/tabs';
 import CustomTabsTrigger, {
 	CustomTabsTriggerProps,
 } from './custom-tabs-trigger';
-import GoogleLogin from './google-login';
-import LoginForm from './login-form';
-import RegisterForm from './register-form';
+import { LoginForm, RegisterForm } from './form/auth-forms';
+import { GoogleLogin } from './google-login';
 
 const tabs: CustomTabsTriggerProps[] = [
 	{
