@@ -18,7 +18,7 @@ const AuthPage = () => {
 					fill
 					className="object-cover opacity-55"
 				/>
-				<p className="text-background font-zain absolute top-2/6 left-2 w-xl text-4xl">
+				<p className="text-background font-zain absolute top-2/6 left-4 w-xl text-4xl font-bold">
 					Controle todos os seus gastos em supermercados.
 				</p>
 			</div>
