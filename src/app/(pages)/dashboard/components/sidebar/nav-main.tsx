@@ -28,7 +28,7 @@ export const NavMain = ({ links }: NavMainProps) => {
 			<SidebarMenu>
 				{links.map(link => (
 					<SidebarMenuItem key={link.title}>
-						<SidebarMenuButton asChild className="">
+						<SidebarMenuButton asChild>
 							<Link
 								href={link.url}
 								prefetch
@@ -36,7 +36,7 @@ export const NavMain = ({ links }: NavMainProps) => {
 									'truncate',
 									pathname === link.url
 										? 'text-background bg-primary shadow-md'
-										: 'text-secondary-foreground',
+										: 'text-primary/65',
 								)}
 							>
 								{link.icon && <link.icon />}

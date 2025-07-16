@@ -2,7 +2,7 @@
 
 import { Slot } from '@radix-ui/react-slot';
 import { cva, VariantProps } from 'class-variance-authority';
-import { PanelLeftIcon } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import * as React from 'react';
 
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -27,8 +27,8 @@ import {
 
 const SIDEBAR_COOKIE_NAME = 'sidebar_state';
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
-const SIDEBAR_WIDTH = '16rem';
-const SIDEBAR_WIDTH_MOBILE = '18rem';
+const SIDEBAR_WIDTH = '15rem';
+const SIDEBAR_WIDTH_MOBILE = '15rem';
 const SIDEBAR_WIDTH_ICON = '3rem';
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b';
 
@@ -197,7 +197,7 @@ function Sidebar({
 				>
 					<SheetHeader className="sr-only">
 						<SheetTitle>Sidebar</SheetTitle>
-						<SheetDescription>Displays the mobile sidebar.</SheetDescription>
+						<SheetDescription>Mostra o sidebar no mobile</SheetDescription>
 					</SheetHeader>
 					<div className="flex h-full w-full flex-col">{children}</div>
 				</SheetContent>
@@ -258,23 +258,35 @@ function SidebarTrigger({
 	onClick,
 	...props
 }: React.ComponentProps<typeof Button>) {
-	const { toggleSidebar } = useSidebar();
+	const { toggleSidebar, open, openMobile, isMobile } = useSidebar();
+
+	const isOpen = isMobile ? openMobile : open;
 
 	return (
 		<Button
 			data-sidebar="trigger"
 			data-slot="sidebar-trigger"
-			variant="ghost"
-			size="icon"
-			className={cn('size-7', className)}
+			variant="outline"
+			className={cn('bg-sidebar w-fit', className)}
 			onClick={event => {
 				onClick?.(event);
 				toggleSidebar();
 			}}
 			{...props}
 		>
-			<PanelLeftIcon />
-			<span className="sr-only">Toggle Sidebar</span>
+			{isOpen ? (
+				<div className="flex items-center gap-2">
+					<ChevronLeft color="#ff781a" />
+					<span className="text-primary text-xs">Fechar</span>
+				</div>
+			) : (
+				<div className="flex items-center gap-2">
+					<span className="text-primary text-xs">Abrir</span>
+					<ChevronRight color="#ff781a" />
+				</div>
+			)}
+
+			<span className="sr-only">Alternar barra lateral</span>
 		</Button>
 	);
 }
@@ -478,7 +490,7 @@ const sidebarMenuButtonVariants = cva(
 	{
 		variants: {
 			variant: {
-				default: '',
+				default: 'hover:bg-primary/10 hover:text-primary/80',
 				outline:
 					'bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]',
 			},

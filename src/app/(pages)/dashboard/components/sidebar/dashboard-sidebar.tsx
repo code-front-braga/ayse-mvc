@@ -46,7 +46,7 @@ export const DashboardSidebar = ({
 			<SidebarHeader>
 				<SidebarMenu>
 					<SidebarMenuItem>
-						<SidebarMenuButton className="data-[slot=sidebar-menu-button]:!p-1.5">
+						<SidebarMenuButton className="pointer-events-none data-[slot=sidebar-menu-button]:!p-1.5">
 							<ChartNoAxesCombined className="!size-4" color="#ff781a" />
 							<span className="text-primary">ayse</span>
 						</SidebarMenuButton>
