@@ -21,9 +21,9 @@ export const columns: ColumnDef<PurchaseItem>[] = [
 		accessorKey: 'supermarket',
 		header: () => 'Supermercado',
 		cell: info => (
-			<div className="md:table-cell">
-				<div className="space-y-1 md:hidden">
-					<div className="text-foreground font-medium">
+			<div className="lg:table-cell">
+				<div className="space-y-1 lg:hidden">
+					<div className="text-primary font-semibold">
 						{info.row.original.supermarket}
 					</div>
 					<div className="text-muted-foreground text-xs">
@@ -37,7 +37,7 @@ export const columns: ColumnDef<PurchaseItem>[] = [
 						{info.row.original.status}
 					</Badge>
 				</div>
-				<span className="text-foreground hidden font-medium md:inline">
+				<span className="text-foreground hidden font-semibold lg:inline">
 					{info.row.original.supermarket}
 				</span>
 			</div>
@@ -74,7 +74,7 @@ export const columns: ColumnDef<PurchaseItem>[] = [
 		accessorKey: 'total',
 		header: () => <div className="hidden text-right lg:block">Valor Total</div>,
 		cell: info => (
-			<div className="hidden text-right font-semibold lg:block lg:text-emerald-600">
+			<div className="lg:text-foreground hidden text-right lg:block">
 				{info.row.original.total}
 			</div>
 		),

@@ -11,14 +11,14 @@ import {
 
 import { ChartConfig, ChartTooltip, ChartTooltipContent } from '@/ui/chart';
 
-import { formatCurrency } from './format-currency';
+import { formatCurrency } from '../../../../../helpers/format-currency';
 
 type DashboardBarChartProps = {
 	chartData: { month: string; total: number }[];
 	chartConfig: ChartConfig;
 };
 
-export function DashboardBarChart({ chartData }: DashboardBarChartProps) {
+export const DashboardBarChart = ({ chartData }: DashboardBarChartProps) => {
 	return (
 		<ResponsiveContainer width="100%" height="100%">
 			<BarChart data={chartData} margin={{ top: 20 }} barSize={94}>
@@ -57,4 +57,4 @@ export function DashboardBarChart({ chartData }: DashboardBarChartProps) {
 			</BarChart>
 		</ResponsiveContainer>
 	);
-}
+};

@@ -2,7 +2,7 @@ import { TrendingUp } from 'lucide-react';
 
 import { CardFooter } from '@/ui/card';
 
-export function DashboardChartFooter() {
+export const DashboardChartFooter = () => {
 	return (
 		<CardFooter className="flex-col items-start gap-2 text-sm">
 			<div className="text-primary flex items-center gap-1 font-medium">

@@ -9,14 +9,15 @@ export const DashboardHeader = () => {
 		<header className="w-full">
 			<div className="flex w-full justify-between">
 				<SidebarTrigger />
-
 				<Tooltip>
 					<TooltipTrigger asChild>
 						<Button variant="default" size="icon">
 							<Plus />
 						</Button>
 					</TooltipTrigger>
-					<TooltipContent side="left">Cadastrar nova compra</TooltipContent>
+					<TooltipContent side="left" className="shadow-lg">
+						Cadastrar nova compra
+					</TooltipContent>
 				</Tooltip>
 			</div>
 		</header>

@@ -36,7 +36,7 @@ export const NavMain = ({ links }: NavMainProps) => {
 									'truncate',
 									pathname === link.url
 										? 'text-background bg-primary shadow-md'
-										: 'text-primary/65',
+										: 'text-foreground',
 								)}
 							>
 								{link.icon && <link.icon />}

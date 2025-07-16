@@ -6,10 +6,19 @@ import {
 	getPaginationRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
+import Link from 'next/link';
 import { useState } from 'react';
 
-import { Card } from '@/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/ui/table';
+import { AllRoutes } from '@/app/enums/all-routes';
+import { Card, CardHeader } from '@/ui/card';
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from '@/ui/table';
 
 import { columns, PurchaseItem } from './supermarket-table-columns';
 import { SupermarketTablePagination } from './supermarket-table-pagination';
@@ -79,8 +88,18 @@ export const SupermarketTable = () => {
 
 	return (
 		<Card className="bg-sidebar flex min-h-[300px] flex-col justify-between space-y-4 p-4 shadow-md">
+			<CardHeader className="hidden lg:grid lg:gap-2 lg:p-0">
+				<p className="text-xs">Para mais detalhes, acesse:</p>
+				<Link
+					href={AllRoutes.DASHBOARD_PURCHASES_HISTORY}
+					className="bg-primary text-background w-fit rounded p-1.5 text-sm shadow-xl"
+				>
+					Minhas Compras
+				</Link>
+			</CardHeader>
+
 			<Table className="h-full table-fixed border-separate border-spacing-0 [&_tr:not(:last-child)_td]:border-b">
-				<TableHeader className="hidden md:table-header-group">
+				<TableHeader className="hidden lg:table-header-group">
 					{table.getHeaderGroups().map(headerGroup => (
 						<TableRow key={headerGroup.id} className="hover:bg-transparent">
 							{headerGroup.headers.map(header => (

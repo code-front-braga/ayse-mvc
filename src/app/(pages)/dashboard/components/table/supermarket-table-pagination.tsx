@@ -10,20 +10,20 @@ type SupermarketTablePaginationProps = {
 	pageIndex: number;
 };
 
-export function SupermarketTablePagination({
+export const SupermarketTablePagination = ({
 	pageIndex,
 	pageCount,
 	canPreviousPage,
 	canNextPage,
 	onPrevious,
 	onNext,
-}: SupermarketTablePaginationProps) {
+}: SupermarketTablePaginationProps) => {
 	return (
 		<div className="flex items-center justify-between pt-2">
 			<span className="text-muted-foreground text-xs md:text-sm">
 				Página {pageIndex + 1} de {pageCount}
 			</span>
-			<Pagination className="w-auto">
+			<Pagination className="w-fit">
 				<PaginationContent className="gap-3">
 					<PaginationItem>
 						<Button
@@ -43,4 +43,4 @@ export function SupermarketTablePagination({
 			</Pagination>
 		</div>
 	);
-}
+};

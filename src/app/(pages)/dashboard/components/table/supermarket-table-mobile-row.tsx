@@ -1,7 +1,7 @@
 import { SupermarketStatusBadge } from './supermarket-status-badge';
 import { PurchaseItem } from './supermarket-table-columns';
 
-export function SupermarketTableMobileRow({ item }: { item: PurchaseItem }) {
+export const SupermarketTableMobileRow = ({ item }: { item: PurchaseItem }) => {
 	return (
 		<div className="space-y-1 lg:hidden">
 			<div className="text-primary font-semibold">{item.supermarket}</div>
@@ -11,4 +11,4 @@ export function SupermarketTableMobileRow({ item }: { item: PurchaseItem }) {
 			<SupermarketStatusBadge status={item.status} />
 		</div>
 	);
-}
+};

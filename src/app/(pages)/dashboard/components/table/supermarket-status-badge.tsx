@@ -11,10 +11,10 @@ type SupermarketStatusBadgeProps = {
 	className?: string;
 };
 
-export function SupermarketStatusBadge({
+export const SupermarketStatusBadge = ({
 	status,
 	className,
-}: SupermarketStatusBadgeProps) {
+}: SupermarketStatusBadgeProps) => {
 	return (
 		<Badge
 			variant="outline"
@@ -23,4 +23,4 @@ export function SupermarketStatusBadge({
 			{status}
 		</Badge>
 	);
-}
+};

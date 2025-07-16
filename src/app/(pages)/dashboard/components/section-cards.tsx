@@ -29,7 +29,7 @@ export const SectionCards = () => {
 							<TooltipTrigger>
 								<CircleQuestionMark size={12} color="#ff781a" />
 							</TooltipTrigger>
-							<TooltipContent side="top">
+							<TooltipContent side="top" className="shadow-lg">
 								<p>Valor somado após a última compra</p>
 							</TooltipContent>
 						</Tooltip>
@@ -65,7 +65,7 @@ export const SectionCards = () => {
 										<ArrowUpRight size={16} color="#ff781a" />
 									</Link>
 								</TooltipTrigger>
-								<TooltipContent side="bottom">
+								<TooltipContent side="bottom" className="shadow-lg">
 									<p>Ver detalhes da compra</p>
 								</TooltipContent>
 							</Tooltip>
@@ -89,7 +89,20 @@ export const SectionCards = () => {
 						<span className="text-primary/75 line-clamp-1 font-medium">
 							Total gasto: R$ 1.000,00
 						</span>
-						<span className="text-gray-800">10 visitas registradas</span>
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<Link
+									href=""
+									className="text-primary flex items-center gap-1 text-xs underline underline-offset-2"
+								>
+									10 visitas registradas
+									<ArrowUpRight size={16} color="#ff781a" />
+								</Link>
+							</TooltipTrigger>
+							<TooltipContent side="bottom" className="shadow-lg">
+								<p>Ver compras</p>
+							</TooltipContent>
+						</Tooltip>
 					</>
 				}
 			/>
@@ -108,7 +121,7 @@ export const SectionCards = () => {
 							<TooltipTrigger>
 								<CircleQuestionMark size={12} color="#ff781a" />
 							</TooltipTrigger>
-							<TooltipContent side="left">
+							<TooltipContent side="left" className="shadow-lg">
 								<p>Última adição neste mês</p>
 							</TooltipContent>
 						</Tooltip>
@@ -134,7 +147,7 @@ export const SectionCards = () => {
 									<ArrowUpRight size={12} />
 								</Link>
 							</TooltipTrigger>
-							<TooltipContent side="bottom">
+							<TooltipContent side="bottom" className="shadow-lg">
 								Ver compras do mês anterior
 							</TooltipContent>
 						</Tooltip>

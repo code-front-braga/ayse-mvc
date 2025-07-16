@@ -1,6 +1,6 @@
-import DashboardChart from './components/chart/dashboard-chart';
+import { DashboardChart } from './components/chart';
 import { SectionCards } from './components/section-cards';
-import { SupermarketTable } from './components/table/supermarket-table';
+import { SupermarketTable } from './components/table';
 
 const DashboardHomePage = () => {
 	return (

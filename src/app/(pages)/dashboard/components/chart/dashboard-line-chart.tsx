@@ -8,16 +8,15 @@ import {
 	YAxis,
 } from 'recharts';
 
+import { formatCurrency } from '@/helpers/format-currency';
 import { ChartConfig, ChartTooltip, ChartTooltipContent } from '@/ui/chart';
-
-import { formatCurrency } from './format-currency';
 
 type DashboardLineChartProps = {
 	chartData: { month: string; total: number }[];
 	chartConfig: ChartConfig;
 };
 
-export function DashboardLineChart({ chartData }: DashboardLineChartProps) {
+export const DashboardLineChart = ({ chartData }: DashboardLineChartProps) => {
 	return (
 		<ResponsiveContainer width="100%" height="100%">
 			<LineChart data={chartData} margin={{ top: 20, left: 8, right: 8 }}>
@@ -55,4 +54,4 @@ export function DashboardLineChart({ chartData }: DashboardLineChartProps) {
 			</LineChart>
 		</ResponsiveContainer>
 	);
-}
+};

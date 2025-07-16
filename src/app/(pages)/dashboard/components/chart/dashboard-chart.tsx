@@ -28,7 +28,7 @@ const chartConfig = {
 	},
 } satisfies ChartConfig;
 
-export default function DashboardChart() {
+export const DashboardChart = () => {
 	return (
 		<Card className="bg-sidebar">
 			<CardHeader>
@@ -58,4 +58,4 @@ export default function DashboardChart() {
 			<DashboardChartFooter />
 		</Card>
 	);
-}
+};
