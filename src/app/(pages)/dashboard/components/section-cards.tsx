@@ -13,6 +13,8 @@ import { CustomCard } from './curstom-card';
 
 export const SectionCards = () => {
 	return (
+    // Verificar condição: se não houver compra, não deverá aparecer nenhum card
+    // Aparecer o supermercado mais frequentado somente quando houver mais de uma compra no mesmo supermercado
 		<div className="*:data-[slot=card]:bg-sidebar grid grid-cols-1 gap-4 *:data-[slot=card]:shadow-xs md:*:data-[slot=card]:transition-all md:*:data-[slot=card]:duration-300 md:*:data-[slot=card]:hover:-translate-y-1.5 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
 			<CustomCard
 				description="Gasto Total"

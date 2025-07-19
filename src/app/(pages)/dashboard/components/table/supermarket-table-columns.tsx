@@ -1,16 +1,12 @@
 import type { ColumnDef } from '@tanstack/react-table';
 
+import { cn } from '@/lib/clsx/utils';
 import { Badge } from '@/ui/badge';
-
-import {
-	statusColor,
-	SupermarketStatusBadge,
-} from './supermarket-status-badge';
 
 export interface PurchaseItem {
 	status: 'Finalizado' | 'Cancelado' | 'Pendente';
 	supermarket: string;
-	address: string;
+	location: string;
 	total: string;
 	date: string;
 	id: string;
@@ -18,65 +14,67 @@ export interface PurchaseItem {
 
 export const columns: ColumnDef<PurchaseItem>[] = [
 	{
+		header: 'Supermercado',
 		accessorKey: 'supermarket',
-		header: () => 'Supermercado',
-		cell: info => (
-			<div className="lg:table-cell">
-				<div className="space-y-1 lg:hidden">
-					<div className="text-primary font-semibold">
-						{info.row.original.supermarket}
-					</div>
-					<div className="text-muted-foreground text-xs">
-						{info.row.original.date}
-					</div>
-					<div className="text-xs font-medium">{info.row.original.total}</div>
-					<Badge
-						variant="outline"
-						className={`border ${statusColor[info.row.original.status]} font-semibold`}
-					>
-						{info.row.original.status}
-					</Badge>
-				</div>
-				<span className="text-foreground hidden font-semibold lg:inline">
-					{info.row.original.supermarket}
-				</span>
-			</div>
+		cell: ({ row }) => (
+			<span className="font-medium">{row.original.supermarket}</span>
 		),
+		size: 140,
+		enableHiding: false,
 	},
 	{
-		accessorKey: 'address',
-		header: () => <span className="hidden lg:inline">Endereço</span>,
-		cell: info => (
-			<span className="text-muted-foreground hidden lg:inline">
-				{info.row.original.address}
-			</span>
+		header: 'Endereço',
+		accessorKey: 'location',
+		cell: ({ row }) => (
+			<span className="text-muted-foreground">{row.original.location}</span>
 		),
+		size: 140,
 	},
 	{
+		header: 'Data da compra',
 		accessorKey: 'date',
-		header: () => <span className="hidden lg:inline">Data da Compra</span>,
-		cell: info => (
-			<span className="text-muted-foreground hidden lg:inline">
-				{info.row.original.date}
-			</span>
+		cell: ({ row }) => (
+			<span className="text-muted-foreground">{row.original.date}</span>
 		),
+		size: 120,
 	},
 	{
+		header: 'Status',
 		accessorKey: 'status',
-		header: () => <span className="hidden lg:inline">Status</span>,
-		cell: info => (
-			<span className="hidden lg:inline">
-				<SupermarketStatusBadge status={info.row.original.status} />
-			</span>
+		cell: ({ row }) => (
+			<Badge
+				variant="outline"
+				className={cn('flex items-center gap-1.5 px-2 py-0.5 text-xs')}
+			>
+				{row.original.status === 'Cancelado' && (
+					<span
+						className="size-1.5 rounded-full bg-red-500"
+						aria-hidden="true"
+					></span>
+				)}
+				{row.original.status === 'Finalizado' && (
+					<span
+						className="size-1.5 rounded-full bg-emerald-500"
+						aria-hidden="true"
+					></span>
+				)}
+				{row.original.status === 'Pendente' && (
+					<span
+						className="bg-primary size-1.5 rounded-full"
+						aria-hidden="true"
+					></span>
+				)}
+				{row.original.status}
+			</Badge>
 		),
+		size: 110,
 	},
 	{
+		header: 'Valor Total',
 		accessorKey: 'total',
-		header: () => <div className="hidden text-right lg:block">Valor Total</div>,
-		cell: info => (
-			<div className="lg:text-foreground hidden text-right lg:block">
-				{info.row.original.total}
-			</div>
+		cell: ({ row }) => (
+			<span className="text-foreground font-medium">{row.original.total}</span>
 		),
+		size: 80,
 	},
 ];

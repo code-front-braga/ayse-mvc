@@ -3,7 +3,7 @@
 import { ChartNoAxesCombined, LayoutGrid, ShoppingBag } from 'lucide-react';
 import * as React from 'react';
 
-import { AllRoutes } from '@/app/enums/all-routes';
+import { AllRoutes } from '@/enums/all-routes';
 import {
 	Sidebar,
 	SidebarContent,
@@ -32,7 +32,7 @@ const data = {
 		},
 		{
 			title: 'Minhas Compras',
-			url: AllRoutes.DASHBOARD_PURCHASES_HISTORY,
+			url: AllRoutes.DASHBOARD_PURCHASE_HISTORY,
 			icon: ShoppingBag,
 		},
 	],
