@@ -23,7 +23,7 @@ const data: PurchaseItem[] = [
 		supermarket: 'Atakarejo',
 		location: 'Rua Jurema, 608',
 		date: '10/07/2025',
-		status: 'Finalizado',
+		status: 'finalizado',
 		total: 'R$ 320,00',
 	},
 	{
@@ -31,7 +31,7 @@ const data: PurchaseItem[] = [
 		supermarket: 'Assaí',
 		location: 'Av. Brasil, 1001',
 		date: '03/07/2025',
-		status: 'Pendente',
+		status: 'pendente',
 		total: 'R$ 180,00',
 	},
 	{
@@ -39,7 +39,7 @@ const data: PurchaseItem[] = [
 		supermarket: 'Carrefour',
 		location: 'Rua das Flores, 225',
 		date: '25/06/2025',
-		status: 'Finalizado',
+		status: 'finalizado',
 		total: 'R$ 275,00',
 	},
 	{
@@ -47,7 +47,7 @@ const data: PurchaseItem[] = [
 		supermarket: 'Big Bompreço',
 		location: 'Av. Salvador, 52',
 		date: '15/06/2025',
-		status: 'Cancelado',
+		status: 'cancelado',
 		total: 'R$ 0,00',
 	},
 	{
@@ -55,7 +55,7 @@ const data: PurchaseItem[] = [
 		supermarket: 'GBarbosa',
 		location: 'Rua Central, 321',
 		date: '05/06/2025',
-		status: 'Finalizado',
+		status: 'finalizado',
 		total: 'R$ 420,00',
 	},
 	{
@@ -63,7 +63,7 @@ const data: PurchaseItem[] = [
 		supermarket: 'Extra',
 		location: 'Rua da Paz, 77',
 		date: '28/05/2025',
-		status: 'Finalizado',
+		status: 'finalizado',
 		total: 'R$ 230,00',
 	},
 ];

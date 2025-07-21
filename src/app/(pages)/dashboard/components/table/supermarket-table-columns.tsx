@@ -4,7 +4,7 @@ import { cn } from '@/lib/clsx/utils';
 import { Badge } from '@/ui/badge';
 
 export interface PurchaseItem {
-	status: 'Finalizado' | 'Cancelado' | 'Pendente';
+	status: 'finalizado' | 'cancelado' | 'pendente';
 	supermarket: string;
 	location: string;
 	total: string;
@@ -46,19 +46,19 @@ export const columns: ColumnDef<PurchaseItem>[] = [
 				variant="outline"
 				className={cn('flex items-center gap-1.5 px-2 py-0.5 text-xs')}
 			>
-				{row.original.status === 'Cancelado' && (
+				{row.original.status === 'cancelado' && (
 					<span
 						className="size-1.5 rounded-full bg-red-500"
 						aria-hidden="true"
 					></span>
 				)}
-				{row.original.status === 'Finalizado' && (
+				{row.original.status === 'finalizado' && (
 					<span
 						className="size-1.5 rounded-full bg-emerald-500"
 						aria-hidden="true"
 					></span>
 				)}
-				{row.original.status === 'Pendente' && (
+				{row.original.status === 'pendente' && (
 					<span
 						className="bg-primary size-1.5 rounded-full"
 						aria-hidden="true"

@@ -2,6 +2,7 @@
 
 import { Control, FieldValues, Path } from 'react-hook-form';
 
+import { cn } from '@/lib/clsx/utils';
 import {
 	FormControl,
 	FormField,
@@ -17,6 +18,7 @@ interface CustomFormFieldProps<T extends FieldValues> {
 	autoComplete?: string;
 	placeholder?: string;
 	control: Control<T>;
+	className?: string;
 	disabled?: boolean;
 	label?: string;
 	name: Path<T>;
@@ -33,13 +35,14 @@ export function CustomFormField<T extends FieldValues>({
 	disabled = false,
 	icon,
 	children,
+	className,
 }: CustomFormFieldProps<T>) {
 	return (
 		<FormField
 			control={control}
 			name={name}
 			render={({ field }) => (
-				<FormItem className="relative">
+				<FormItem className={cn('relative w-full', className)}>
 					{label && (
 						<FormLabel className="text-xs md:text-sm">{label}</FormLabel>
 					)}

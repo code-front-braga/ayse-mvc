@@ -8,8 +8,8 @@ import {
 } from '@/ui/card';
 
 interface CustomCardProps {
-	actionChildren: React.ReactNode;
-	footerChildren: React.ReactNode;
+	actionChildren?: React.ReactNode;
+	footerChildren?: React.ReactNode;
 	description: string;
 	title: string;
 }

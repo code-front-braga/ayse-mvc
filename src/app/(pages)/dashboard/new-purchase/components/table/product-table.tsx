@@ -25,7 +25,7 @@ import {
 	useReactTable,
 	VisibilityState,
 } from '@tanstack/react-table';
-import { PenLine, Text, Trash } from 'lucide-react';
+import { Check, PenLine, Plus, Text, Trash, X } from 'lucide-react';
 import { useId, useMemo, useRef, useState, useTransition } from 'react';
 
 import { formatCurrency } from '@/helpers/format-currency';
@@ -55,192 +55,200 @@ import { Label } from '@/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/ui/popover';
 import { Table, TableHead, TableHeader, TableRow } from '@/ui/table';
 
-import CustomTableBody from '../../../components/custom-table-body';
 import { SupermarketTablePagination } from '../../../components/table';
-import { PurchaseItem } from '../../../components/table/supermarket-table-columns';
+import CustomProductTable from './custom-product-table';
 
-export const defaultData: PurchaseItem[] = [
+export interface ProductProps {
+	category: string;
+	quantity: string;
+	product: string;
+	price: string;
+	total: string;
+	id: string;
+}
+
+export const defaultData: ProductProps[] = [
 	{
 		id: '1',
-		supermarket: 'Supermercado Pão de Açúcar',
-		location: 'Rua Augusta, 123 - São Paulo',
-		date: '2025-07-01',
-		status: 'finalizado',
-		total: '150,99',
+		product: 'Arroz Tipo 1',
+		category: 'Mercearia',
+		price: '25,90',
+		quantity: '2',
+		total: '51,80',
 	},
 	{
 		id: '2',
-		supermarket: 'Carrefour',
-		location: 'Av. Brasil, 234 - Rio de Janeiro',
-		date: '2025-07-02',
-		status: 'pendente',
-		total: '89,5',
+		product: 'Leite Integral',
+		category: 'Laticínios',
+		price: '5,90',
+		quantity: '3',
+		total: '17,70',
 	},
 	{
 		id: '3',
-		supermarket: 'Supermercado Dia',
-		location: 'Rua das Flores, 87 - Belo Horizonte',
-		date: '2025-07-03',
-		status: 'cancelado',
-		total: '45,75',
+		product: 'Café Torrado',
+		category: 'Bebidas',
+		price: '18,50',
+		quantity: '1',
+		total: '18,50',
 	},
 	{
 		id: '4',
-		supermarket: 'Assaí Atacadista',
-		location: 'Av. Paulista, 1450 - São Paulo',
-		date: '2025-07-04',
-		status: 'finalizado',
-		total: '220,1',
+		product: 'Sabonete Dove',
+		category: 'Higiene',
+		price: '3,70',
+		quantity: '6',
+		total: '22,20',
 	},
 	{
 		id: '5',
-		supermarket: 'Extra',
-		location: 'Rua do Comércio, 77 - Salvador',
-		date: '2025-07-05',
-		status: 'pendente',
-		total: '102,9',
+		product: 'Papel Higiênico 12x',
+		category: 'Limpeza',
+		price: '22,90',
+		quantity: '1',
+		total: '22,90',
 	},
 	{
 		id: '6',
-		supermarket: 'Atacadão',
-		location: 'Av. Getúlio Vargas, 300 - Recife',
-		date: '2025-07-06',
-		status: 'finalizado',
-		total: '310',
+		product: 'Detergente Líquido',
+		category: 'Limpeza',
+		price: '2,99',
+		quantity: '4',
+		total: '11,96',
 	},
 	{
 		id: '7',
-		supermarket: 'Supermercado São Vicente',
-		location: 'Rua 7 de Setembro, 55 - Campinas',
-		date: '2025-07-07',
-		status: 'finalizado',
-		total: '75,25',
+		product: 'Macarrão Espaguete',
+		category: 'Mercearia',
+		price: '4,25',
+		quantity: '2',
+		total: '8,50',
 	},
 	{
 		id: '8',
-		supermarket: 'Oba Hortifruti',
-		location: 'Av. das Nações, 400 - Brasília',
-		date: '2025-07-08',
-		status: 'cancelado',
-		total: '58',
+		product: 'Queijo Mussarela',
+		category: 'Frios',
+		price: '35,90',
+		quantity: '1',
+		total: '35,90',
 	},
 	{
 		id: '9',
-		supermarket: 'Supermercado Hirota',
-		location: 'Rua Japão, 90 - São Paulo',
-		date: '2025-07-09',
-		status: 'pendente',
-		total: '199,99',
+		product: 'Presunto Cozido',
+		category: 'Frios',
+		price: '29,99',
+		quantity: '1',
+		total: '29,99',
 	},
 	{
 		id: '10',
-		supermarket: 'Coop',
-		location: 'Av. Kennedy, 200 - Santo André',
-		date: '2025-07-10',
-		status: 'finalizado',
-		total: '138,4',
+		product: 'Iogurte Natural',
+		category: 'Laticínios',
+		price: '3,50',
+		quantity: '6',
+		total: '21,00',
 	},
 	{
 		id: '11',
-		supermarket: 'Makro',
-		location: 'Rod. Raposo Tavares, 3000 - Osasco',
-		date: '2025-07-11',
-		status: 'finalizado',
-		total: '287,3',
+		product: 'Farinha de Trigo',
+		category: 'Mercearia',
+		price: '6,70',
+		quantity: '2',
+		total: '13,40',
 	},
 	{
 		id: '12',
-		supermarket: 'Savegnago',
-		location: 'Av. Independência, 800 - Ribeirão Preto',
-		date: '2025-07-12',
-		status: 'cancelado',
-		total: '61,45',
+		product: 'Feijão Carioca',
+		category: 'Mercearia',
+		price: '8,45',
+		quantity: '2',
+		total: '16,90',
 	},
 	{
 		id: '13',
-		supermarket: 'Zaffari',
-		location: 'Rua Porto Alegre, 120 - Porto Alegre',
-		date: '2025-07-13',
-		status: 'pendente',
-		total: '83,6',
+		product: 'Açúcar Refinado',
+		category: 'Mercearia',
+		price: '4,60',
+		quantity: '2',
+		total: '9,20',
 	},
 	{
 		id: '14',
-		supermarket: 'Sonda',
-		location: 'Av. Interlagos, 1000 - São Paulo',
-		date: '2025-07-14',
-		status: 'finalizado',
-		total: '145',
+		product: 'Refrigerante Cola 2L',
+		category: 'Bebidas',
+		price: '7,50',
+		quantity: '3',
+		total: '22,50',
 	},
 	{
 		id: '15',
-		supermarket: 'Mambo',
-		location: 'Rua da Paz, 432 - Campinas',
-		date: '2025-07-15',
-		status: 'finalizado',
-		total: '127,8',
+		product: 'Água Mineral 1,5L',
+		category: 'Bebidas',
+		price: '2,00',
+		quantity: '6',
+		total: '12,00',
 	},
 	{
 		id: '16',
-		supermarket: 'Super Muffato',
-		location: 'Av. Brasil, 750 - Londrina',
-		date: '2025-07-16',
-		status: 'cancelado',
-		total: '98,3',
+		product: 'Sabão em Pó',
+		category: 'Limpeza',
+		price: '18,80',
+		quantity: '1',
+		total: '18,80',
 	},
 	{
 		id: '17',
-		supermarket: 'Veran',
-		location: 'Rua Dom Pedro II, 345 - Guarulhos',
-		date: '2025-07-17',
-		status: 'finalizado',
-		total: '109,7',
+		product: 'Desodorante Aerosol',
+		category: 'Higiene',
+		price: '9,90',
+		quantity: '2',
+		total: '19,80',
 	},
 	{
 		id: '18',
-		supermarket: 'Supermercado Bahamas',
-		location: 'Av. Juiz de Fora, 654 - Juiz de Fora',
-		date: '2025-07-18',
-		status: 'pendente',
-		total: '59',
+		product: 'Óleo de Soja',
+		category: 'Mercearia',
+		price: '6,50',
+		quantity: '3',
+		total: '19,50',
 	},
 	{
 		id: '19',
-		supermarket: 'Supermercado Líder',
-		location: 'Rua Pará, 112 - Belém',
-		date: '2025-07-19',
-		status: 'finalizado',
-		total: '176,4',
+		product: 'Molho de Tomate',
+		category: 'Mercearia',
+		price: '3,80',
+		quantity: '4',
+		total: '15,20',
 	},
 	{
 		id: '20',
-		supermarket: 'Supermercado Bretas',
-		location: 'Av. Goiás, 280 - Goiânia',
-		date: '2025-07-20',
-		status: 'finalizado',
-		total: '134,25',
+		product: 'Creme Dental',
+		category: 'Higiene',
+		price: '4,90',
+		quantity: '2',
+		total: '9,80',
 	},
 ];
 
-const statusFilterFn: FilterFn<PurchaseItem> = (
+const categoryFilterFn: FilterFn<ProductProps> = (
 	row,
 	columnId,
 	filterValue: string[],
 ) => {
 	if (!filterValue?.length) return true;
-	const status = row.getValue(columnId) as string;
-	return filterValue.includes(status);
+	const category = row.getValue(columnId) as string;
+	return filterValue.includes(category);
 };
 
 interface GetColumnsProps {
-	setData: React.Dispatch<React.SetStateAction<PurchaseItem[]>>;
-	data: PurchaseItem[];
+	setData: React.Dispatch<React.SetStateAction<ProductProps[]>>;
+	data: ProductProps[];
 }
 
 const getColumns = ({
 	data,
 	setData,
-}: GetColumnsProps): ColumnDef<PurchaseItem>[] => [
+}: GetColumnsProps): ColumnDef<ProductProps>[] => [
 	{
 		id: 'select',
 		header: ({ table }) => (
@@ -265,64 +273,41 @@ const getColumns = ({
 		enableHiding: false,
 	},
 	{
-		header: 'Supermercado',
-		accessorKey: 'supermarket',
+		header: 'Produto',
+		accessorKey: 'product',
 		cell: ({ row }) => (
-			<span className="font-medium">{row.original.supermarket}</span>
+			<span className="font-medium">{row.original.product}</span>
 		),
 		size: 140,
 		enableHiding: false,
 	},
 	{
-		header: 'Endereço',
-		accessorKey: 'location',
+		header: 'Categoria',
+		accessorKey: 'category',
 		cell: ({ row }) => (
-			<span className="text-muted-foreground">{row.original.location}</span>
+			<span className="text-muted-foreground">{row.original.category}</span>
 		),
 		size: 140,
+		filterFn: categoryFilterFn,
 	},
 	{
-		header: 'Data da compra',
-		accessorKey: 'date',
+		header: 'Preço',
+		accessorKey: 'price',
 		cell: ({ row }) => (
-			<span className="text-muted-foreground">{row.original.date}</span>
+			<span className="text-muted-foreground">{row.original.price}</span>
 		),
 		size: 120,
 	},
 	{
-		header: 'Status',
-		accessorKey: 'status',
+		header: 'Quantidade',
+		accessorKey: 'quantity',
 		cell: ({ row }) => (
-			<Badge
-				variant="outline"
-				className={cn('flex items-center gap-1.5 px-2 py-0.5 text-xs')}
-			>
-				{row.original.status === 'cancelado' && (
-					<span
-						className="size-1.5 rounded-full bg-red-500"
-						aria-hidden="true"
-					></span>
-				)}
-				{row.original.status === 'finalizado' && (
-					<span
-						className="size-1.5 rounded-full bg-emerald-500"
-						aria-hidden="true"
-					></span>
-				)}
-				{row.original.status === 'pendente' && (
-					<span
-						className="bg-primary size-1.5 rounded-full"
-						aria-hidden="true"
-					></span>
-				)}
-				{row.original.status}
-			</Badge>
+			<span className="text-muted-foreground">{row.original.quantity}</span>
 		),
-		size: 110,
-		filterFn: statusFilterFn,
+		size: 120,
 	},
 	{
-		header: 'Valor Total',
+		header: 'Total',
 		accessorKey: 'total',
 		cell: ({ row }) => (
 			<span className="text-foreground font-medium">
@@ -354,12 +339,12 @@ export default function HistoryTable() {
 
 	const [sorting, setSorting] = useState<SortingState>([
 		{
-			id: 'supermarket',
+			id: 'product',
 			desc: false,
 		},
 	]);
 
-	const [data, setData] = useState<PurchaseItem[]>(() => [...defaultData]);
+	const [data, setData] = useState<ProductProps[]>(() => [...defaultData]);
 
 	const columns = useMemo(() => getColumns({ data, setData }), [data]);
 
@@ -394,7 +379,7 @@ export default function HistoryTable() {
 	});
 
 	// Extract complex expressions into separate variables
-	const statusColumn = table.getColumn('status');
+	const statusColumn = table.getColumn('category');
 	const statusFacetedValues = statusColumn?.getFacetedUniqueValues();
 	const statusFilterValue = statusColumn?.getFilterValue();
 
@@ -415,7 +400,9 @@ export default function HistoryTable() {
 	}, [statusFilterValue]);
 
 	const handleStatusChange = (checked: boolean, value: string) => {
-		const filterValue = table.getColumn('status')?.getFilterValue() as string[];
+		const filterValue = table
+			.getColumn('category')
+			?.getFilterValue() as string[];
 		const newFilterValue = filterValue ? [...filterValue] : [];
 
 		if (checked) {
@@ -428,12 +415,34 @@ export default function HistoryTable() {
 		}
 
 		table
-			.getColumn('status')
+			.getColumn('category')
 			?.setFilterValue(newFilterValue.length ? newFilterValue : undefined);
 	};
 
 	return (
-		<div className="flex flex-col space-y-4 py-4 md:py-6">
+		<div className="flex flex-col space-y-4">
+			<div className="bg-sidebar flex flex-wrap items-center justify-between gap-3 rounded-sm border p-4">
+				<div className="flex items-center gap-3">
+					<h2 className="text-lg font-semibold">Lista de Compras</h2>
+					<Badge variant="secondary" className="text-xs">
+						{data.length} {data.length === 1 ? 'item' : 'itens'}
+					</Badge>
+				</div>
+				<div className="flex items-center gap-3">
+					<Button variant="default">
+						<Plus className="-ms-1 size-4" />
+						Adicionar Produto
+					</Button>
+					<Button variant="outline">
+						<X className="-ms-1 size-4" />
+						Cancelar
+					</Button>
+					<Button className="bg-green-600 hover:bg-green-700">
+						<Check className="-ms-1 size-4" />
+						Finalizar Compra
+					</Button>
+				</div>
+			</div>
 			{/* Actions */}
 			<div className="flex flex-wrap items-center justify-between gap-3">
 				{/* Left side */}
@@ -445,29 +454,27 @@ export default function HistoryTable() {
 							ref={inputRef}
 							className={cn(
 								'peer bg-background from-accent/60 to-accent min-w-60 bg-gradient-to-br ps-9',
-								Boolean(table.getColumn('supermarket')?.getFilterValue()) &&
-									'pe-9',
+								Boolean(table.getColumn('product')?.getFilterValue()) && 'pe-9',
 							)}
 							value={
-								(table.getColumn('supermarket')?.getFilterValue() ??
-									'') as string
+								(table.getColumn('product')?.getFilterValue() ?? '') as string
 							}
 							onChange={e =>
-								table.getColumn('supermarket')?.setFilterValue(e.target.value)
+								table.getColumn('product')?.setFilterValue(e.target.value)
 							}
-							placeholder="Pesquisar por supermercado"
+							placeholder="Pesquisar por produto"
 							type="text"
-							aria-label="Pesquisar por supermercado"
+							aria-label="Pesquisar por produto"
 						/>
 						<div className="text-muted-foreground/60 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-2 peer-disabled:opacity-50">
 							<RiSearch2Line size={20} aria-hidden="true" />
 						</div>
-						{Boolean(table.getColumn('supermarket')?.getFilterValue()) && (
+						{Boolean(table.getColumn('product')?.getFilterValue()) && (
 							<button
 								className="text-muted-foreground/60 hover:text-foreground focus-visible:outline-ring/70 absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-lg outline-offset-2 transition-colors focus:z-10 focus-visible:outline-2 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
 								aria-label="Limpar filtro"
 								onClick={() => {
-									table.getColumn('supermarket')?.setFilterValue('');
+									table.getColumn('product')?.setFilterValue('');
 									if (inputRef.current) {
 										inputRef.current.focus();
 									}
@@ -478,6 +485,7 @@ export default function HistoryTable() {
 						)}
 					</div>
 				</div>
+
 				{/* Right side */}
 				<div className="flex items-center gap-3">
 					{/* Delete button */}
@@ -508,12 +516,11 @@ export default function HistoryTable() {
 										<AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
 										<AlertDialogDescription>
 											Esta ação não poderá ser desfeita. Isso irá deletar
-											permanentemente. {table.getSelectedRowModel().rows.length}
-											selecionada{' '}
+											permanentemente. {table.getSelectedRowModel().rows.length}{' '}
 											{table.getSelectedRowModel().rows.length === 1
-												? 'linha'
-												: 'linhas'}
-											.
+												? 'produto'
+												: 'produtos'}{' '}
+											selecionada.
 										</AlertDialogDescription>
 									</AlertDialogHeader>
 								</div>
@@ -547,7 +554,7 @@ export default function HistoryTable() {
 						<PopoverContent className="w-auto min-w-36 p-3" align="end">
 							<div className="space-y-3">
 								<div className="text-muted-foreground/60 text-xs font-medium uppercase">
-									Status
+									Categoria
 								</div>
 								<div className="space-y-3">
 									{uniqueStatusValues.map((value, i) => (
@@ -576,17 +583,7 @@ export default function HistoryTable() {
 					</Popover>
 				</div>
 			</div>
-			<div className="flex items-center gap-1 self-end">
-				<Badge>
-					<p>Total:</p>
-					{formatCurrency(
-						data.reduce(
-							(acc, item) => acc + Number(String(item.total).replace(',', '.')),
-							0,
-						),
-					)}
-				</Badge>
-			</div>
+
 			{/* Table */}
 			<Table className="table-fixed border-separate border-spacing-0 [&_tr:not(:last-child)_td]:border-b">
 				<TableHeader>
@@ -652,76 +649,11 @@ export default function HistoryTable() {
 					))}
 				</TableHeader>
 				<tbody aria-hidden="true" className="table-row h-1"></tbody>
-				{/* <TableBody>
-					{table.getRowModel().rows?.length ? (
-						table.getRowModel().rows.map(row => (
-							<TableRow key={row.id} className="hover:bg-primary/10">
-								{row.getVisibleCells().map(cell => (
-									<TableCell
-										key={cell.id}
-										className="truncate text-xs lg:text-sm"
-									>
-										{flexRender(cell.column.columnDef.cell, cell.getContext())}
-									</TableCell>
-								))}
-							</TableRow>
-						))
-					) : (
-						<TableRow>
-							<TableCell
-								colSpan={columns.length}
-								className="text-center text-xs lg:text-sm"
-							>
-								Nenhum resultado encontrado.
-							</TableCell>
-						</TableRow>
-					)}
-				</TableBody> */}
-				<CustomTableBody columns={columns} table={table} />
+
+				<CustomProductTable columns={columns} table={table} />
 				<tbody aria-hidden="true" className="table-row h-1"></tbody>
 			</Table>
 
-			{/* Pagination */}
-			{/* {table.getRowModel().rows.length > 0 && (
-				<div className="flex items-center justify-between pt-2">
-					<span
-						className="text-muted-foreground text-xs md:text-sm"
-						aria-live="polite"
-					>
-						Página{' '}
-						<span className="text-foreground">
-							{table.getState().pagination.pageIndex + 1}
-						</span>{' '}
-						de <span className="text-foreground">{table.getPageCount()}</span>
-					</span>
-					<Pagination className="w-fit">
-						<PaginationContent className="gap-3">
-							<PaginationItem>
-								<Button
-									variant="default"
-									className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
-									onClick={() => table.previousPage()}
-									disabled={!table.getCanPreviousPage()}
-									aria-label="Ir para a página anterior"
-								>
-									Anterior
-								</Button>
-							</PaginationItem>
-							<PaginationItem>
-								<Button
-									variant="default"
-									className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
-									onClick={() => table.nextPage()}
-									disabled={!table.getCanNextPage()}
-									aria-label="Ir para a próxima página"
-								>
-									Próxima
-								</Button>
-							</PaginationItem>
-						</PaginationContent>
-					</Pagination>
-				</div>
-			)} */}
 			<SupermarketTablePagination
 				pageIndex={pagination.pageIndex}
 				pageCount={table.getPageCount()}
@@ -739,27 +671,12 @@ function RowActions({
 	data,
 	item,
 }: {
-	setData: React.Dispatch<React.SetStateAction<PurchaseItem[]>>;
-	data: PurchaseItem[];
-	item: PurchaseItem;
+	setData: React.Dispatch<React.SetStateAction<ProductProps[]>>;
+	data: ProductProps[];
+	item: ProductProps;
 }) {
 	const [isUpdatePending, startUpdateTransition] = useTransition();
 	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-
-	// const handleStatusToggle = () => {
-	// 	startUpdateTransition(() => {
-	// 		const updatedData = data.map(dataItem => {
-	// 			if (dataItem.id === item.id) {
-	// 				return {
-	// 					...dataItem,
-	// 					status: item.status === 'Finalizado' ? 'Cancelado' : 'Finalizado',
-	// 				};
-	// 			}
-	// 			return dataItem;
-	// 		});
-	// 		setData(updatedData);
-	// 	});
-	// };
 
 	const handleDelete = () => {
 		startUpdateTransition(() => {
@@ -787,7 +704,7 @@ function RowActions({
 				<DropdownMenuContent align="end" className="w-auto">
 					<DropdownMenuItem variant="default">
 						<PenLine />
-						Editar Compra
+						Editar Produto
 					</DropdownMenuItem>
 					<DropdownMenuItem>
 						<Text />
@@ -798,7 +715,7 @@ function RowActions({
 						variant="destructive"
 					>
 						<Trash />
-						Deletar Compra
+						Deletar Produto
 					</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>
@@ -806,22 +723,22 @@ function RowActions({
 			<AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
-						<AlertDialogTitle>Are you sure?</AlertDialogTitle>
+						<AlertDialogTitle>Tem certeza?</AlertDialogTitle>
 						<AlertDialogDescription>
-							This action cannot be undone. This will permanently delete this
-							contact.
+							Esta ação não poderá ser desfeita. Isso irá deletar
+							permanentemente.
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
 						<AlertDialogCancel disabled={isUpdatePending}>
-							Cancel
+							Cancelar
 						</AlertDialogCancel>
 						<AlertDialogAction
 							onClick={handleDelete}
 							disabled={isUpdatePending}
 							className="bg-destructive hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-white shadow-xs"
 						>
-							Delete
+							Deletar
 						</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>
